@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Print Dev Variable
         run: echo "${{vars.ENVIRONMENT}}"
+      - name: Print url
+        run: echo "${{vars.URL}}"
 
       - name: Deploy Dev
         run: echo "Deploying to Dev"
@@ -38,6 +40,7 @@ jobs:
     steps:
       - name: Print SIT Variable
         run: echo "${{vars.ENVIRONMENT}}"
-
+      - name: Print url
+        run: echo "${{vars.URL}}"
       - name: Deploy SIT
         run: echo "Deploying to SIT"
