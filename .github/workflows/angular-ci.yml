@@ -8,37 +8,24 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: test
-
     steps:
-      - name: Print Test Variable
-        run: echo "${{ vars.ENVIRONMENT }}"
-
       - name: Test Stage
         run: echo "Test stage completed"
 
   build:
     runs-on: ubuntu-latest
-    environment: dev
-
     needs: test
-
     steps:
-      - name: Print Dev Variable
-        run: echo "${{ vars.ENVIRONMENT }}"
-
       - name: Build Stage
         run: echo "Build completed"
 
   deploy-dev:
     runs-on: ubuntu-latest
     environment: dev
-
     needs: build
-
     steps:
       - name: Print Dev Variable
-        run: echo "${{ vars.ENVIRONMENT }}"
+        run: echo "${{vars.ENVIRONMENT}}"
 
       - name: Deploy Dev
         run: echo "Deploying to Dev"
@@ -46,12 +33,10 @@ jobs:
   deploy-sit:
     runs-on: ubuntu-latest
     environment: sit
-
     needs: deploy-dev
-
     steps:
       - name: Print SIT Variable
-        run: echo "${{ vars.ENVIRONMENT }}"
+        run: echo "${{vars.ENVIRONMENT}}"
 
       - name: Deploy SIT
         run: echo "Deploying to SIT"
