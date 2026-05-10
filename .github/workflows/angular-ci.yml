@@ -13,22 +13,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
       - name: Print Variable
         run: echo "${{ vars.ENVIRONMENT }}"
-      - name: Build Angular app
-        run: npm run build -- --configuration production
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 22
+      #     cache: 'npm'
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: angular-build
-          path: dist/
+      # - name: Install dependencies
+      #   run: npm ci
+      # - name: Print Variable
+      #   run: echo "${{ vars.ENVIRONMENT }}"
+      # - name: Build Angular app
+      #   run: npm run build -- --configuration production
+
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: angular-build
+      #     path: dist/
+  deploy-sit:
+    runs-on: ubuntu-latest
+    environment: sit
+    steps:
+      - name: Print Variable
+        run: echo "${{ vars.ENVIRONMENT }}"
+
