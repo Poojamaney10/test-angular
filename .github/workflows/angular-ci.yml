@@ -28,7 +28,12 @@ jobs:
         run: echo "${{vars.ENVIRONMENT}}"
       - name: Print url
         run: echo "${{vars.URL}}"
-
+      - name: multile commands
+        run: |
+          echo "Starting build"
+          pwd
+          ls -ltr
+          echo "Build completed"
       - name: Deploy Dev
         run: echo "Deploying to Dev"
 
