@@ -1,42 +1,57 @@
-name: Angular CI
+name: Multi Environment Pipeline
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     environment: test
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Print Variable
+      - name: Print Test Variable
         run: echo "${{ vars.ENVIRONMENT }}"
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 22
-      #     cache: 'npm'
 
-      # - name: Install dependencies
-      #   run: npm ci
-      # - name: Print Variable
-      #   run: echo "${{ vars.ENVIRONMENT }}"
-      # - name: Build Angular app
-      #   run: npm run build -- --configuration production
+      - name: Test Stage
+        run: echo "Test stage completed"
 
-      # - name: Upload build artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: angular-build
-      #     path: dist/
+  build:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    needs: test
+
+    steps:
+      - name: Print Dev Variable
+        run: echo "${{ vars.ENVIRONMENT }}"
+
+      - name: Build Stage
+        run: echo "Build completed"
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    needs: build
+
+    steps:
+      - name: Print Dev Variable
+        run: echo "${{ vars.ENVIRONMENT }}"
+
+      - name: Deploy Dev
+        run: echo "Deploying to Dev"
+
   deploy-sit:
     runs-on: ubuntu-latest
     environment: sit
+
+    needs: deploy-dev
+
     steps:
-      - name: Print Variable
+      - name: Print SIT Variable
         run: echo "${{ vars.ENVIRONMENT }}"
 
+      - name: Deploy SIT
+        run: echo "Deploying to SIT"
