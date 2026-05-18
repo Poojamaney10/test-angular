@@ -64,12 +64,13 @@ jobs:
           -o StrictHostKeyChecking=no \
           $USERNAME@$HOST \
           "sudo rm -rf /usr/share/nginx/html/*"
-  
+        
       - name: Deploy code into nginx
         run: |
           sshpass -p "$PASSWORD" rsync -avz \
           -e "ssh -o StrictHostKeyChecking=no" \
-          dist/ $USERNAME@$HOST:/usr/share/nginx/html/
+          dist/test-project/browser/ \
+          $USERNAME@$HOST:/usr/share/nginx/html/
   
       - name: Restart nginx
         run: |
