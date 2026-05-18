@@ -38,11 +38,26 @@ jobs:
       HOST: ${{ secrets.SERVER_HOST }}
       USERNAME: ${{ secrets.SERVER_USERNAME }}
       PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+  
     steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: angular-build
+          path: dist
+  
       - name: Install sshpass
         run: |
           sudo apt-get update
           sudo apt-get install -y sshpass rsync
+  
+      - name: Test SSH Login
+        run: |
+          sshpass -p "$PASSWORD" ssh \
+          -o StrictHostKeyChecking=no \
+          $USERNAME@$HOST \
+          "whoami"
+  
       - name: Clean NGINX HTML Folder
         run: |
           sshpass -p "$PASSWORD" ssh \
@@ -50,11 +65,12 @@ jobs:
           $USERNAME@$HOST \
           "sudo rm -rf /usr/share/nginx/html/*"
   
-      - name: Deploying the code into nginx
+      - name: Deploy code into nginx
         run: |
           sshpass -p "$PASSWORD" rsync -avz \
           -e "ssh -o StrictHostKeyChecking=no" \
           dist/ $USERNAME@$HOST:/usr/share/nginx/html/
+  
       - name: Restart nginx
         run: |
           sshpass -p "$PASSWORD" ssh \
