@@ -33,6 +33,7 @@ jobs:
           path: dist/
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     env:
       HOST: ${{ secrets.SERVER_HOST }}
       USERNAME: ${{ secrets.SERVER_USERNAME }}
